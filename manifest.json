@@ -1,0 +1,29 @@
+{
+    "name": "SitTrack",
+    "description": "Interval timer with desktop notifications",
+    "version": "0.0.1",
+    "manifest_version": 3,
+    "action": {
+        "default_popup": "popup.html",
+        "default_icon": {
+            "48": "images/sit-tracker-icon-proto.png"
+        }
+    },
+    "background": {
+        "service_worker": "service-worker.js",
+        "type": "module"
+    },
+    "permissions": [
+        "alarms",
+        "notifications",
+        "storage"
+    ],
+    "content_scripts": [
+        {
+            "js": ["scripts/content.js"],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
+}

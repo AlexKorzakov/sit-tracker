@@ -1,0 +1,14 @@
+@layer reset, base;
+
+@layer reset {
+    * {
+        box-sizing: border-box;
+    }
+}
+
+@layer base {
+    button,
+    input {
+        margin-top: 0.3rem;
+    }
+}
