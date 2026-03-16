@@ -4,11 +4,13 @@
     * {
         box-sizing: border-box;
     }
+    
 }
 
 @layer base {
     button,
     input {
         margin-top: 0.3rem;
+        margin-bottom: 0.3rem;
     }
 }

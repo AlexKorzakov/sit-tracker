@@ -3,15 +3,15 @@
         <meta charset="utf-8">
         <link rel="stylesheet" href="popup.css">
     </head>
-    <script src="popup.js"></script>
+    <script src="popup.js" defer></script>
     <body>
         <div class="container">
+            <div class="status">Status:</div>
             <label>
-                <span class="labelInterval">Set time interval:</span>
-                <input type="number" id="interval" value="20">
+                <span class="labelInterval">Set time interval (min):</span>
+                <input type="number" id="interval" value="1">
             </label>
-            <button type="button">Start</button>
-            <div class="status"></div>
+            <button type="button" id="start">Start</button>
         </div>
     </body>
 </html>
