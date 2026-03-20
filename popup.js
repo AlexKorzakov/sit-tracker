@@ -1,18 +1,47 @@
-const status = document.querySelector(".status");
-const start = document.querySelector("#start");
+const statusElem = document.querySelector(".status");
+const startElem = document.querySelector("#start");
+const intervalElem = document.querySelector("#interval");
+const endTimeElem = document.querySelector(".endTime");
 
-chrome.storage.local.get(["enabled"]).then((result) => {
-    const isEnabled = result.enabled ?? false;
+let isRunningState = false;
 
-    status.textContent = "Status: " + (isEnabled ? "Enabled" : "Disabled");
+chrome.storage.local.get(["isRunning", "endTime"]).then((result) => {
+    isRunningState = result.isRunning ?? false;
+    statusElem.textContent = "Status: " + (isRunningState ? "Running" : "Stopped");
+    startElem.textContent = (isRunningState ? "Stop" : "Start");
+    if (result.endTime && result.endTime > 0) {
+        endTimeElem.textContent = `Break in: ${new Date(result.endTime)}`;
+    }
 });
 
-start.addEventListener("click", (event) => {
+chrome.storage.local.onChanged.addListener((changes) => {
+    if (changes.isRunning) {
+        isRunningState = changes.isRunning.newValue;
+        statusElem.textContent = "Status: " + (isRunningState ? "Running" : "Stopped");
+        startElem.textContent = (isRunningState ? "Stop" : "Start");
+    }
+
+    if (changes.endTime) {
+        const endTime = changes.endTime.newValue ?? 0;
+        if (endTime > 0) {
+            endTimeElem.textContent = `Break in: ${new Date(changes.endTime.newValue)}`;
+        } else {
+            endTimeElem.textContent = "";
+        }
+    }
+});
+
+startElem.addEventListener("click", async (event) => {
     event.preventDefault();
-    const interval = document.querySelector("#interval").value;
-    console.log(typeof(parseInt(interval)));
-    chrome.storage.local.set({ 
-        enabled: true,
-        interval: parseInt(interval)
-    });
+    if (isRunningState) {
+        await chrome.runtime.sendMessage({ type: "STOP_TIMER" });
+    } else {
+        const value = parseInt(intervalElem.value, 10);
+        if (!value || value <= 0) return;
+        await chrome.runtime.sendMessage({
+            type: "START_TIMER",
+            intervalMinutes: value,
+        });
+    }
+
 });
