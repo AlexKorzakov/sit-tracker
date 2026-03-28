@@ -1,5 +1,6 @@
 const statusElem = document.querySelector(".status");
 const startElem = document.querySelector("#start");
+const formElem = document.querySelector("#timerForm");
 const intervalElem = document.querySelector("#interval");
 const endTimeElem = document.querySelector(".endTime");
 
@@ -31,7 +32,7 @@ chrome.storage.local.onChanged.addListener((changes) => {
     }
 });
 
-startElem.addEventListener("click", async (event) => {
+formElem.addEventListener("submit", async (event) => {
     event.preventDefault();
     if (isRunningState) {
         await chrome.runtime.sendMessage({ type: "STOP_TIMER" });
