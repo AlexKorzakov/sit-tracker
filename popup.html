@@ -6,13 +6,15 @@
     <script src="popup.js" defer></script>
     <body>
         <div class="container">
-            <div class="status">Status:</div>
-            <label>
-                <span class="labelInterval">Set time interval (min):</span>
-                <input type="number" id="interval" value="1">
-            </label>
-            <button type="button" id="start">Start</button>
-            <div class="endTime"></div>
+            <form id="timerForm">
+                <div class="status">Status:</div>
+                <label>
+                    <span class="labelInterval">Set time interval (min):</span>
+                    <input type="number" id="interval" value="1" min="1" required>
+                </label>
+                <button type="submit" id="start">Start</button>
+                <div class="endTime"></div>
+            </form>
         </div>
     </body>
 </html>
